@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XDomainBench | ICML 2026 Project</title>
+  <meta name="description" content="XDomainBench project website: abstract, benchmark design, dataset, experiments, and mechanism analysis.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo" href="#top">
+        <img class="logo-icon" src="./assets/章鱼.png" alt="XDomainBench logo">
+        <span>XDomainBench</span>
+      </a>
+      <nav>
+        <a href="#abstract">Abstract</a>
+        <a href="#motivation">Motivation</a>
+        <a href="#design">Design</a>
+        <a href="#dataset">Dataset</a>
+        <a href="#results">Results</a>
+        <a href="#mechanism">Mechanism</a>
+      </nav>
+      <a class="btn btn-sm" href="#resources">Resources</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero container">
+      <div class="hero-text">
+        <p class="pill">ICML 2026 · AI for Science</p>
+        <h1>XDomainBench</h1>
+        <p class="subtitle">
+          Diagnosing reasoning collapse in <strong>high-dimensional scientific knowledge composition</strong> with a
+          controllable interactive benchmark.
+        </p>
+        <div class="author-hero">
+          <p class="author-hero-names">
+            Zhiren Gong<sup>1,2</sup>, Tiantong Wu<sup>1</sup>, Jiaming Zhang<sup>1</sup>, Fuyao Zhang<sup>1</sup>, Che Wang<sup>1</sup>, Yurong Hao<sup>1</sup>, Yikun Hou<sup>1,4</sup>,
+            Foo Ping<sup>1</sup>, Yilei Zhao<sup>1</sup>, Fei Huang<sup>5</sup>, Chau Yuen<sup>3</sup>, Wei Yang Bryan Lim<sup>1</sup>
+          </p>
+          <p class="author-hero-affils">
+            <span><sup>1</sup> College of Computing and Data Science, Nanyang Technological University</span>
+            <span><sup>2</sup> Interdisciplinary Graduate Programme, Nanyang Technological University</span>
+            <span><sup>3</sup> School of Electrical and Electronic Engineering, Nanyang Technological University</span>
+            <span><sup>4</sup> Department of Mathematics and Mathematical Statistics, Umea University</span>
+            <span><sup>5</sup> Alibaba Group</span>
+          </p>
+        </div>
+        <div class="cta">
+          <a class="btn" href="https://openreview.net/forum?id=U8x5SYtT5b" target="_blank" rel="noreferrer">Paper</a>
+          <a class="btn btn-soft" href="https://github.com/GongZhiren/XDomainBench" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="btn btn-soft" href="https://huggingface.co/datasets/ZHIREN001/XDomainBench" target="_blank" rel="noreferrer">Hugging Face</a>
+          <button id="copyCiteHero" class="btn btn-soft" type="button">Cite</button>
+        </div>
+      </div>
+      <figure class="hero-visual card figure-card">
+        <img src="./assets/indexed/XDomainBench.png" alt="Domain taxonomy and benchmark scale" data-full="./assets/indexed/XDomainBench.png" loading="eager">
+        <figcaption>Figure. Domain taxonomy and scale across 20 domains.</figcaption>
+      </figure>
+    </section>
+
+    <section class="container metric-strip">
+      <article><h3>8,598</h3><p>interactive sessions</p></article>
+      <article><h3>20</h3><p>scientific domains</p></article>
+      <article><h3>4</h3><p>task categories</p></article>
+      <article><h3>1→4</h3><p>composition orders</p></article>
+      <article><h3>6</h3><p>interdisciplinary categories</p></article>
+    </section>
+
+    <section id="abstract" class="container section">
+      <h2>Abstract</h2>
+      <article class="card">
+        <p>
+          <strong>Large Language Models are increasingly used for knowledge synthesis</strong>, but their compositional generalization in
+          scientific knowledge remains under-characterized. Existing benchmarks mostly focus on single-turn restricted settings
+          and fail to capture <strong>capability boundaries in realistic interactive workflows</strong>.
+        </p>
+        <p>
+          XDomainBench introduces a diagnostic benchmark for interactive interdisciplinary scientific reasoning. It formalizes
+          <strong>composition order</strong> and <strong>mixture structure</strong>, covering 8,598 interactive sessions across 20 domains and 4 task categories,
+          with realistic trajectory patterns over difficulty and domain-mixture dynamics.
+        </p>
+        <p>
+          Large-scale evaluation reveals systematic reasoning collapse as composition order increases, driven by two root causes:
+          <strong>direct difficulty growth from domain composition</strong> and <strong>indirect interaction-amplified failures</strong> such as error accumulation,
+          reasoning breaks, and domain confusion.
+        </p>
+      </article>
+      <p class="takeaway"><strong>Takeaway.</strong> XDomainBench reframes interdisciplinary reasoning evaluation from isolated QA to controllable multi-turn composition stress testing.</p>
+    </section>
+
+    <section id="motivation" class="container section">
+      <h2>Motivation & Positioning</h2>
+      <div class="story-grid">
+        <article class="card">
+          <h3>Why New Benchmarking Is Needed</h3>
+          <p>
+            Real AI4S reasoning is multi-turn and cross-domain. Most prior benchmarks evaluate isolated queries and cannot
+            separate whether failures come from missing knowledge or from fragile joint reasoning under composition.
+          </p>
+          <h3>What XDomainBench Adds</h3>
+          <ul>
+            <li>Controllable composition space from single-domain to high-order cross-domain sessions.</li>
+            <li>Trajectory-level diagnostics beyond aggregate accuracy.</li>
+            <li>Standardized history-aware evaluation protocol for reproducible comparisons.</li>
+          </ul>
+        </article>
+        <figure class="card figure-card">
+          <img src="./assets/indexed/overview.png" alt="Overview of the XDomainBench framework" data-full="./assets/indexed/overview.png" loading="lazy">
+          <figcaption>Figure. Overview of the framework across generation, control signals, and evaluation.</figcaption>
+        </figure>
+      </div>
+      <p class="takeaway"><strong>Takeaway.</strong> The key novelty is diagnostic controllability: it separates knowledge coverage limits from compositional reasoning fragility.</p>
+    </section>
+
+    <section id="design" class="container section">
+      <h2>Benchmark Design</h2>
+      <div class="story-grid">
+        <figure class="card figure-card">
+          <img src="./assets/indexed/bench_design.png" alt="Design framework of XDomainBench" data-full="./assets/indexed/bench_design.png" loading="lazy">
+          <figcaption>Figure. Construction framework with composition and trajectory controls.</figcaption>
+        </figure>
+        <article class="card">
+          <h3>Three Design Principles</h3>
+          <ul>
+            <li><strong>Interdisciplinary richness:</strong> composition order k in {1,2,3,4} and realistic domain combinations.</li>
+            <li><strong>Content complexity richness:</strong> controlled difficulty trajectories and domain-mixture trajectories.</li>
+            <li><strong>Diagnosability:</strong> interpretable failure signatures at turn and session levels.</li>
+          </ul>
+          <h3>Construction Pipeline</h3>
+          <p>
+            Stage 1 selects interdisciplinary domain sets. Stage 2 generates sessions under trajectory targets with validation.
+            Stage 3 performs detailed checks and human quality review.
+          </p>
+        </article>
+      </div>
+
+      <div class="story-grid">
+        <figure class="card figure-card">
+          <img src="./assets/indexed/distribution.png" alt="Distribution of patterns and task types" data-full="./assets/indexed/distribution.png" loading="lazy">
+          <figcaption>Figure. Pattern/task distribution supporting controlled complexity coverage.</figcaption>
+        </figure>
+        <div class="stack-col">
+          <article class="card insight-card">
+            <h3>Insight: Why Composition Selection Matters</h3>
+            <p>
+              The benchmark does not only increase domain count; it controls <strong>which domain combinations</strong> appear and how they evolve by turn.
+              This avoids easy synthetic mixtures and makes failures more faithful to real interdisciplinary workflows.
+            </p>
+            <p>
+              A key outcome in the paper is that higher-order composition introduces <strong>integrative reasoning overhead</strong> even at early turns,
+              before long-horizon drift effects begin to dominate.
+            </p>
+          </article>
+          <article class="card compact-insight">
+            <h3>Quantitative Footprint</h3>
+            <p>
+              Full split includes <strong>8,598 sessions</strong>, <strong>52,582 turns</strong>, and an average of <strong>6.12 turns per session</strong>,
+              giving enough trajectory depth to expose interaction-amplified failures.
+            </p>
+          </article>
+        </div>
+      </div>
+      <p class="takeaway"><strong>Takeaway.</strong> Benchmark construction jointly controls domain order, trajectory complexity, and validation gates, enabling mechanism-level analysis rather than score-only comparison.</p>
+    </section>
+
+    <section id="dataset" class="container section">
+      <h2>Dataset & Evaluation Protocol</h2>
+      <div class="grid2">
+        <article class="card">
+          <h3>Open Release Content</h3>
+          <ul>
+            <li><code>dataset/full_dataset</code>: full benchmark for final reporting.</li>
+            <li><code>dataset/small_dataset</code>: compact benchmark for rapid iteration.</li>
+            <li><code>evaluation/</code>: unified evaluator with history enabled by default.</li>
+            <li>Multi-provider model access via LiteLLM-compatible model identifiers.</li>
+          </ul>
+          <h3>Metrics</h3>
+          <p>
+            Turn-level metrics: Recall and F1.<br>
+            <strong>Session-level metric:</strong> SessionSuccess@tau, marking a session successful if
+            correctness rate exceeds a fixed threshold.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Scale Summary</h3>
+          <table>
+            <thead>
+              <tr><th>Split</th><th>JSON files</th><th>Scenarios</th><th>Turns</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>full_dataset</td><td>64</td><td>8,598</td><td>52,582</td></tr>
+              <tr><td>small_dataset</td><td>64</td><td>1,137</td><td>6,659</td></tr>
+            </tbody>
+          </table>
+          <h3>Task Types</h3>
+          <p>Multiple Choice, Factual QA, Reasoning, and Code, with normalization in aggregated analyses.</p>
+        </article>
+      </div>
+
+      <figure class="card figure-card figure-wide">
+        <img src="./assets/indexed/example.png" alt="Example multi-turn session" data-full="./assets/indexed/example.png" loading="lazy">
+        <figcaption>Figure. Example interdisciplinary interaction session used in benchmark construction.</figcaption>
+      </figure>
+
+      <div class="grid3 dataset-stats-grid">
+        <article class="card">
+          <h3>Composition Order Distribution (Full)</h3>
+          <table>
+            <thead><tr><th>Order k</th><th>Sessions</th><th>Share</th></tr></thead>
+            <tbody>
+              <tr><td>k=1</td><td>1,346</td><td>15.7%</td></tr>
+              <tr><td>k=2</td><td>3,749</td><td>43.6%</td></tr>
+              <tr><td>k=3</td><td>2,105</td><td>24.5%</td></tr>
+              <tr><td>k=4</td><td>1,398</td><td>16.3%</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card">
+          <h3>Task-Type Distribution (Full Turns)</h3>
+          <table>
+            <thead><tr><th>Task type</th><th>Turns</th><th>Share</th></tr></thead>
+            <tbody>
+              <tr><td>Reasoning</td><td>25,070</td><td>47.7%</td></tr>
+              <tr><td>Multiple choice</td><td>15,481</td><td>29.4%</td></tr>
+              <tr><td>Factual</td><td>11,818</td><td>22.5%</td></tr>
+              <tr><td>Code</td><td>213</td><td>0.4%</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="card">
+          <h3>Trajectory Patterns (Full Sessions)</h3>
+          <table>
+            <thead><tr><th>Difficulty pattern</th><th>Sessions</th></tr></thead>
+            <tbody>
+              <tr><td>Gradual increase</td><td>2,567</td></tr>
+              <tr><td>Fluctuate</td><td>2,305</td></tr>
+              <tr><td>Stable</td><td>1,858</td></tr>
+              <tr><td>Gradual decrease</td><td>1,502</td></tr>
+              <tr><td>Spike</td><td>366</td></tr>
+            </tbody>
+          </table>
+          <p class="note">For multi-domain sessions only (k>=2), mixture patterns are: Stable 5,032, Gradual shift 1,361, Fluctuate 859.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="results" class="container section">
+      <h2>Main Experimental Results</h2>
+      <div class="grid2 results-top">
+        <figure class="card figure-card figure-compact">
+          <img src="./assets/indexed/radar_scaling.png" alt="Multi-metric scaling across composition orders" data-full="./assets/indexed/radar_scaling.png" loading="lazy">
+          <figcaption>Figure. Multi-metric scaling patterns across composition orders.</figcaption>
+        </figure>
+        <article class="card">
+          <h3>Observed Scaling Pattern</h3>
+          <p>
+            Performance declines as composition order increases, and this drop becomes steeper at higher k.
+            The paper further shows that model families behave differently: <strong>small models are more sensitive to composition stress</strong>,
+            while <strong>MoE models retain stronger session-level robustness</strong> in many settings.
+          </p>
+          <ul>
+            <li><strong>Nonlinear degradation:</strong> Large-model deterministic mean S@t drops from 38.7 to 27.1 as k goes from 1 to 4.</li>
+            <li><strong>Architecture gap:</strong> MoE models keep the strongest S@t at each k, but still exhibit substantial decay under higher composition.</li>
+            <li><strong>Metric robustness:</strong> Judge-based semantic scoring follows the same monotonic collapse trend as token-based metrics.</li>
+            <li><strong>Early-turn burden:</strong> Turn-1 comparisons indicate direct composition overhead before long-session error propagation starts.</li>
+          </ul>
+          <div class="insight-band">
+            <span><strong>Large Mean S@t:</strong> 38.7 → 27.1</span>
+            <span><strong>Small Mean S@t:</strong> 32.3 → 25.9</span>
+            <span><strong>MoE Mean S@t:</strong> 82.1 → 42.0</span>
+          </div>
+          <p class="note">See full main table below for complete per-model values (deterministic + open-world, across k=1..4).</p>
+        </article>
+      </div>
+
+      <article class="card full-width-table-card">
+        <h3>Observed Scaling Pattern (Full Main Table)</h3>
+        <div class="table-scroll">
+          <table class="wide-table">
+            <thead>
+              <tr>
+                <th rowspan="2">Model</th>
+                <th colspan="12">Deterministic Problems</th>
+                <th colspan="12">Open-world Problems</th>
+              </tr>
+              <tr>
+                <th>D-k1 R</th><th>D-k1 F1</th><th>D-k1 S@t</th>
+                <th>D-k2 R</th><th>D-k2 F1</th><th>D-k2 S@t</th>
+                <th>D-k3 R</th><th>D-k3 F1</th><th>D-k3 S@t</th>
+                <th>D-k4 R</th><th>D-k4 F1</th><th>D-k4 S@t</th>
+                <th>O-k1 R</th><th>O-k1 F1</th><th>O-k1 S@t</th>
+                <th>O-k2 R</th><th>O-k2 F1</th><th>O-k2 S@t</th>
+                <th>O-k3 R</th><th>O-k3 F1</th><th>O-k3 S@t</th>
+                <th>O-k4 R</th><th>O-k4 F1</th><th>O-k4 S@t</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>GPT-5.2</td><td>30.8</td><td>22.0</td><td>42.5</td><td>25.9</td><td>11.4</td><td>28.8</td><td>22.8</td><td>8.2</td><td>25.2</td><td>18.0</td><td>4.8</td><td>26.9</td><td>25.9</td><td>9.3</td><td>29.6</td><td>21.7</td><td>7.0</td><td>28.2</td><td>28.0</td><td>5.8</td><td>21.4</td><td>13.0</td><td>5.8</td><td>35.3</td></tr>
+              <tr><td>Claude-4.5 Sonnet</td><td>30.4</td><td>22.8</td><td>48.5</td><td>28.6</td><td>14.0</td><td>31.3</td><td>21.0</td><td>7.3</td><td>26.7</td><td>19.3</td><td>4.5</td><td>24.4</td><td>30.2</td><td>8.0</td><td>40.7</td><td>23.4</td><td>10.3</td><td>21.4</td><td>13.5</td><td>5.5</td><td>21.4</td><td>13.3</td><td>4.0</td><td>14.7</td></tr>
+              <tr><td>Claude-4.5 Haiku</td><td>30.6</td><td>23.0</td><td>41.8</td><td>29.7</td><td>13.7</td><td>31.1</td><td>26.9</td><td>12.3</td><td>30.7</td><td>23.0</td><td>9.5</td><td>37.7</td><td>19.4</td><td>7.0</td><td>40.7</td><td>22.4</td><td>11.0</td><td>21.4</td><td>32.6</td><td>13.8</td><td>23.2</td><td>19.1</td><td>11.5</td><td>35.3</td></tr>
+              <tr><td>Gemini-2.5 Flash</td><td>27.1</td><td>20.4</td><td>36.6</td><td>21.4</td><td>5.3</td><td>24.3</td><td>18.4</td><td>3.0</td><td>25.2</td><td>13.8</td><td>3.1</td><td>21.3</td><td>18.8</td><td>6.9</td><td>33.3</td><td>22.1</td><td>4.1</td><td>34.2</td><td>13.5</td><td>3.3</td><td>21.4</td><td>12.4</td><td>3.7</td><td>34.5</td></tr>
+              <tr><td>Gemini-2.0 Flash</td><td>27.2</td><td>12.9</td><td>26.9</td><td>22.4</td><td>5.6</td><td>25.8</td><td>20.7</td><td>5.0</td><td>24.3</td><td>15.0</td><td>2.8</td><td>20.3</td><td>26.8</td><td>1.8</td><td>22.2</td><td>16.2</td><td>2.8</td><td>24.8</td><td>12.6</td><td>4.6</td><td>16.1</td><td>11.9</td><td>2.3</td><td>15.4</td></tr>
+              <tr><td>Qwen2.5-72B</td><td>26.8</td><td>17.8</td><td>35.8</td><td>27.0</td><td>12.8</td><td>27.3</td><td>25.0</td><td>11.5</td><td>28.2</td><td>19.9</td><td>8.9</td><td>32.3</td><td>31.3</td><td>8.4</td><td>25.9</td><td>21.9</td><td>11.2</td><td>20.5</td><td>16.1</td><td>10.2</td><td>21.4</td><td>13.2</td><td>10.3</td><td>32.4</td></tr>
+              <tr class="mean-row"><td>Large Mean</td><td>28.8</td><td>19.8</td><td>38.7</td><td>25.8</td><td>10.5</td><td>28.1</td><td>22.5</td><td>7.9</td><td>26.7</td><td>18.2</td><td>5.6</td><td>27.1</td><td>25.4</td><td>6.9</td><td>32.1</td><td>21.3</td><td>7.7</td><td>25.1</td><td>19.4</td><td>7.2</td><td>20.8</td><td>13.8</td><td>6.3</td><td>27.9</td></tr>
+              <tr><td>GPT-5-mini</td><td>23.1</td><td>12.8</td><td>25.2</td><td>25.3</td><td>14.4</td><td>21.3</td><td>22.4</td><td>2.2</td><td>20.0</td><td>11.4</td><td>1.3</td><td>20.0</td><td>22.0</td><td>2.8</td><td>10.0</td><td>23.1</td><td>3.4</td><td>20.0</td><td>3.2</td><td>3.3</td><td>10.0</td><td>3.2</td><td>3.3</td><td>10.0</td></tr>
+              <tr><td>Qwen2.5-14B</td><td>27.2</td><td>19.1</td><td>39.6</td><td>25.5</td><td>11.3</td><td>26.6</td><td>23.3</td><td>9.1</td><td>27.7</td><td>18.5</td><td>7.6</td><td>29.9</td><td>18.2</td><td>3.9</td><td>18.5</td><td>27.1</td><td>10.4</td><td>25.6</td><td>28.1</td><td>9.3</td><td>10.7</td><td>11.6</td><td>7.5</td><td>20.6</td></tr>
+              <tr><td>Qwen2.5-7B</td><td>26.4</td><td>18.4</td><td>31.3</td><td>25.8</td><td>11.5</td><td>26.8</td><td>23.3</td><td>9.8</td><td>28.7</td><td>18.9</td><td>7.3</td><td>28.1</td><td>50.2</td><td>3.7</td><td>18.5</td><td>22.6</td><td>8.6</td><td>23.9</td><td>11.1</td><td>7.6</td><td>8.9</td><td>14.5</td><td>6.8</td><td>17.6</td></tr>
+              <tr><td>Llama-3.1-8B</td><td>26.2</td><td>18.8</td><td>35.8</td><td>24.7</td><td>11.4</td><td>23.8</td><td>23.3</td><td>9.9</td><td>28.2</td><td>16.5</td><td>8.1</td><td>25.1</td><td>15.2</td><td>4.1</td><td>14.8</td><td>23.9</td><td>9.8</td><td>29.9</td><td>28.9</td><td>10.3</td><td>17.9</td><td>19.0</td><td>7.9</td><td>29.4</td></tr>
+              <tr><td>Llama-3.2-3B</td><td>26.8</td><td>16.3</td><td>31.3</td><td>24.5</td><td>10.5</td><td>23.8</td><td>23.2</td><td>8.7</td><td>28.7</td><td>20.9</td><td>5.5</td><td>29.9</td><td>19.6</td><td>3.4</td><td>25.9</td><td>22.8</td><td>8.9</td><td>25.6</td><td>47.1</td><td>6.9</td><td>23.2</td><td>14.3</td><td>5.1</td><td>26.5</td></tr>
+              <tr><td>Gemma-2-2B-IT</td><td>27.3</td><td>18.6</td><td>30.6</td><td>26.3</td><td>12.1</td><td>27.6</td><td>20.6</td><td>7.4</td><td>21.8</td><td>18.1</td><td>4.3</td><td>22.6</td><td>18.4</td><td>4.6</td><td>7.4</td><td>20.7</td><td>8.5</td><td>18.8</td><td>45.0</td><td>7.4</td><td>17.9</td><td>9.5</td><td>2.8</td><td>17.6</td></tr>
+              <tr class="mean-row"><td>Small Mean</td><td>26.2</td><td>17.3</td><td>32.3</td><td>25.3</td><td>11.9</td><td>25.0</td><td>22.7</td><td>7.9</td><td>25.9</td><td>17.4</td><td>5.7</td><td>25.9</td><td>23.9</td><td>3.8</td><td>15.9</td><td>23.4</td><td>8.3</td><td>24.0</td><td>27.2</td><td>7.5</td><td>14.8</td><td>12.0</td><td>5.6</td><td>20.3</td></tr>
+              <tr><td>Qwen3-Next-80B</td><td>63.8</td><td>65.7</td><td>89.6</td><td>46.3</td><td>40.1</td><td>51.1</td><td>41.7</td><td>36.4</td><td>52.0</td><td>29.5</td><td>26.3</td><td>34.5</td><td>10.8</td><td>15.0</td><td>40.7</td><td>29.8</td><td>27.9</td><td>28.2</td><td>26.3</td><td>23.9</td><td>46.4</td><td>25.7</td><td>24.1</td><td>41.2</td></tr>
+              <tr><td>Mixtral-8x7B</td><td>56.4</td><td>22.4</td><td>74.6</td><td>51.9</td><td>18.0</td><td>46.4</td><td>51.0</td><td>18.9</td><td>48.5</td><td>41.0</td><td>19.5</td><td>49.4</td><td>24.1</td><td>21.3</td><td>40.7</td><td>41.9</td><td>25.7</td><td>35.9</td><td>42.0</td><td>25.5</td><td>53.6</td><td>39.9</td><td>23.7</td><td>55.9</td></tr>
+              <tr class="mean-row"><td>MoE Mean</td><td>60.1</td><td>44.0</td><td>82.1</td><td>49.1</td><td>29.1</td><td>48.8</td><td>46.4</td><td>27.6</td><td>50.2</td><td>35.2</td><td>22.9</td><td>42.0</td><td>17.5</td><td>18.1</td><td>40.7</td><td>35.9</td><td>26.8</td><td>32.0</td><td>34.1</td><td>24.7</td><td>50.0</td><td>32.8</td><td>23.9</td><td>48.5</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">Full values from the main overall scaling table in the paper (R/F1/S@t for deterministic and open-world settings).</p>
+      </article>
+
+      <div class="grid2">
+        <article class="card insight-card">
+          <h3>Insight: Deterministic vs Open-world Regimes</h3>
+          <p>
+            Deterministic tasks expose clearer compositional scaling laws, while open-world settings add semantic variance.
+            Even under this variance, degradation with increasing k remains directionally consistent, indicating the collapse is
+            not a token-overlap artifact.
+          </p>
+        </article>
+        <article class="card insight-card">
+          <h3>Insight: Why This Matters for AI4S</h3>
+          <p>
+            In realistic scientific workflows, higher-order composition is unavoidable. The results imply that improvements in
+            standalone reasoning are insufficient unless models also mitigate interaction-level drift across turns.
+          </p>
+        </article>
+      </div>
+
+      <figure class="card figure-card figure-wide">
+        <img src="./assets/indexed/turn1_barplot1.png" alt="Turn-1 breakdown by composition order and task type" data-full="./assets/indexed/turn1_barplot1.png" loading="lazy">
+        <figcaption>Figure. Turn-1 breakdown: composition effect and difficulty/performance relation by model type.</figcaption>
+      </figure>
+      <p class="takeaway"><strong>Takeaway.</strong> Performance degradation with higher composition order is systematic and model-family dependent, with small models most sensitive and MoE variants comparatively resilient.</p>
+    </section>
+
+    <section id="mechanism" class="container section">
+      <h2>Mechanism Analysis</h2>
+      <div class="story-grid mechanism-pair">
+        <figure class="card figure-card mechanism-card" data-mech-group="left">
+          <img src="./assets/indexed/mechanism.png" alt="Mechanism summary left" data-full="./assets/indexed/mechanism.png" loading="lazy">
+          <figcaption>Figure. Pattern distributions and pattern-to-collapse associations.</figcaption>
+        </figure>
+        <figure class="card figure-card mechanism-card" data-mech-group="right">
+          <img src="./assets/indexed/mechanism_summary_right.png" alt="Mechanism summary right" data-full="./assets/indexed/mechanism_summary_right.png" loading="lazy">
+          <figcaption>Figure. Pattern trajectories showing how difficulty/mixture dynamics trigger failures.</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid2">
+        <article class="card">
+          <h3>Direct Mechanism</h3>
+          <p>
+            Immediate compositional overhead appears at turn 1 as domains are combined, before long-session error propagation.
+            This reflects insufficient capability in <strong>high-dimensional joint reasoning</strong>.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Indirect Mechanism</h3>
+          <p>
+            Interaction patterns amplify failures over turns, causing <strong>error accumulation</strong>, <strong>reasoning breaks</strong>, and <strong>domain confusion</strong>,
+            ultimately increasing collapse probability.
+          </p>
+        </article>
+      </div>
+
+      <article class="card insight-card">
+        <h3>Core Insight Across Results</h3>
+        <p>
+          The paper's key message is not only that scores drop with larger k, but that <strong>two mechanisms interact</strong>:
+          domain composition increases immediate reasoning burden, while trajectory dynamics in multi-turn sessions amplify mistakes.
+          This explains why collapse is often sharper in realistic interactive settings than in one-shot evaluations.
+        </p>
+      </article>
+      <p class="takeaway"><strong>Takeaway.</strong> Collapse arises from coupled effects: direct compositional burden at early turns and trajectory-amplified error propagation over interaction history.</p>
+    </section>
+
+    <section id="authors" class="container section">
+      <h2>Authors & Institutions</h2>
+      <article class="card">
+        <p class="authors">
+          Zhiren Gong<sup>1,2</sup> · Tiantong Wu<sup>1</sup> · Jiaming Zhang<sup>1</sup> · Fuyao Zhang<sup>1</sup> · Che Wang<sup>1</sup> · Yurong Hao<sup>1</sup> ·
+          Yikun Hou<sup>1,4</sup> · Foo Ping<sup>1</sup> · Yilei Zhao<sup>1</sup> · Fei Huang<sup>5</sup> · Chau Yuen<sup>3</sup> · Wei Yang Bryan Lim<sup>1</sup>
+        </p>
+        <div class="chips">
+          <span><sup>1</sup> College of Computing and Data Science, NTU Singapore</span>
+          <span><sup>2</sup> Interdisciplinary Graduate Programme, NTU Singapore</span>
+          <span><sup>3</sup> School of EEE, NTU Singapore</span>
+          <span><sup>4</sup> Umea University, Sweden</span>
+          <span><sup>5</sup> Alibaba Group, China</span>
+        </div>
+      </article>
+    </section>
+
+    <section id="resources" class="container section">
+      <h2>Resources</h2>
+      <div class="grid3">
+        <a class="card resource" href="https://openreview.net/forum?id=U8x5SYtT5b" target="_blank" rel="noreferrer">
+          <h3>Paper</h3><p>OpenReview publication page.</p>
+        </a>
+        <a class="card resource" href="https://github.com/GongZhiren/XDomainBench" target="_blank" rel="noreferrer">
+          <h3>GitHub</h3><p>Code, evaluator, and reproducibility assets.</p>
+        </a>
+        <a class="card resource" href="https://huggingface.co/datasets/ZHIREN001/XDomainBench" target="_blank" rel="noreferrer">
+          <h3>Hugging Face</h3><p>Public dataset repository and dataset card.</p>
+        </a>
+      </div>
+
+      <article class="card contact-card">
+        <h3>Contact</h3>
+        <p>
+          For any questions, collaborations, or issues with benchmark usage, please feel free to contact
+          <a class="contact-link" href="mailto:zhiren001@e.ntu.edu.sg">zhiren001@e.ntu.edu.sg</a>.
+        </p>
+      </article>
+
+      <article class="card">
+        <div class="bib-head">
+          <h3>BibTeX</h3>
+          <button id="copyBib" class="btn btn-sm btn-soft" type="button">Copy BibTeX</button>
+        </div>
+        <pre id="bib">@inproceedings{gong2026xdomainbench,
+  title     = {{XD}omainBench: Diagnosing Reasoning Collapse in High-Dimensional Scientific Knowledge Composition},
+  author    = {Gong, Zhiren and Wu, Tiantong and Zhang, Jiaming and Zhang, Fuyao and Wang, Che and Hao, Yurong and Hou, Yikun and Foo, Ping and Zhao, Yilei and Huang, Fei and Yuen, Chau and Lim, Wei Yang Bryan},
+  booktitle = {Forty-third International Conference on Machine Learning},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=U8x5SYtT5b}
+}</pre>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>
+        XDomainBench project website · crafted for open and reproducible AI4S benchmarking · Contact:
+        <a class="contact-link" href="mailto:zhiren001@e.ntu.edu.sg">zhiren001@e.ntu.edu.sg</a>
+      </p>
+    </div>
+  </footer>
+
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <button id="lightboxClose" class="lightbox-close" type="button" aria-label="Close image view">×</button>
+    <img id="lightboxImg" src="" alt="Expanded figure preview">
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
