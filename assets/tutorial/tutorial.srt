@@ -1,0 +1,119 @@
+1
+00:00:00,350 --> 00:00:12,590
+Let's take a guided tour of XDomainBench, a diagnostic benchmark for how large language models reason across scientific disciplines, in realistic, multi-turn conversations.
+
+2
+00:00:13,040 --> 00:00:19,712
+First, the problem. Modern science rarely stays inside a single field.
+
+3
+00:00:20,162 --> 00:00:29,882
+Designing a new material means combining analytical chemistry, solid-state physics, and a cost estimate from finance, all at the same time.
+
+4
+00:00:30,332 --> 00:00:36,716
+We would love language models to act as research assistants that fuse these disciplines on the fly.
+
+5
+00:00:37,166 --> 00:00:46,622
+But real scientific work is interactive. A question leads to an answer, which shapes the next question, over many turns.
+
+6
+00:00:47,072 --> 00:00:55,040
+Most benchmarks don't test this. They ask isolated, single-domain, one-shot questions.
+
+7
+00:00:55,490 --> 00:01:04,490
+So when a model fails, we can't tell why. Is it missing the knowledge, or can it simply not combine what it already knows?
+
+8
+00:01:04,940 --> 00:01:15,356
+XDomainBench is built to answer that question. It turns interdisciplinary reasoning into something we can control and measure, along two axes.
+
+9
+00:01:15,806 --> 00:01:25,118
+The first axis is composition order: how many distinct domains a session draws on, from one, to two, to three, and four.
+
+10
+00:01:25,568 --> 00:01:34,904
+The second is mixture structure: how strongly each turn leans on each domain, and how that balance shifts as the conversation evolves.
+
+11
+00:01:35,354 --> 00:01:44,954
+From twenty scientific domains, organized into six interdisciplinary families, we build meaningful combinations, not random ones.
+
+12
+00:01:45,404 --> 00:01:53,732
+Domains are paired by semantic similarity, so chemistry meets materials science, rather than something arbitrary.
+
+13
+00:01:54,182 --> 00:02:07,310
+The result is a large benchmark: eighty-five hundred interactive sessions, across twenty domains and four task types, multiple choice, factual recall, step-by-step reasoning, and code.
+
+14
+00:02:07,760 --> 00:02:14,360
+Each session is more than a pile of questions. It follows a designed trajectory.
+
+15
+00:02:14,810 --> 00:02:23,786
+Difficulty can stay stable, gradually rise, gradually fall, spike, or fluctuate across the turns of a conversation.
+
+16
+00:02:24,236 --> 00:02:32,540
+And in cross-domain sessions, the mixture of domains can hold steady, gradually shift, or wander from turn to turn.
+
+17
+00:02:32,990 --> 00:02:48,014
+Every session is generated under a target configuration, validated by three independent models, and checked by humans. Construction is kept separate from evaluation, so we measure reasoning, not imitation.
+
+18
+00:02:48,464 --> 00:02:59,768
+Now, the evidence. We evaluate twelve models, large, small, and mixture-of-experts, under one standardized, history-aware protocol.
+
+19
+00:03:00,218 --> 00:03:12,986
+The headline result is a systematic reasoning collapse. As composition order grows from one domain to four, average session success falls from thirty-nine percent to twenty-seven.
+
+20
+00:03:13,436 --> 00:03:23,636
+And the decline is non-linear. The drop grows steeper at higher orders, as combining disciplines compounds, rather than simply adds.
+
+21
+00:03:24,086 --> 00:03:38,702
+Model families differ. Small models degrade fastest, large models hold up better, and mixture-of-experts models stay strongest at every order, yet even they lose nearly half of their session success.
+
+22
+00:03:39,152 --> 00:03:49,496
+This is not a token-matching artifact. A semantic judge, scoring meaning rather than exact words, shows the very same downward trend.
+
+23
+00:03:49,946 --> 00:03:55,658
+So why does this happen? We trace the collapse to two mechanisms.
+
+24
+00:03:56,108 --> 00:04:09,116
+The direct mechanism appears immediately. Even at the very first turn, combining domains raises difficulty and lowers accuracy, before any conversation history has built up.
+
+25
+00:04:09,566 --> 00:04:18,494
+The indirect mechanism unfolds over the conversation, where certain trajectory patterns amplify small mistakes into failure.
+
+26
+00:04:18,944 --> 00:04:33,080
+We see three signatures: error accumulation, where performance decays after a stumble; reasoning breaks, sudden drops that contaminate later turns; and domain confusion, where the model leans on the wrong discipline.
+
+27
+00:04:33,530 --> 00:04:42,650
+Volatile trajectories, spikes and fluctuations, trigger these failures most often, and they cascade into a full session collapse.
+
+28
+00:04:43,100 --> 00:04:49,268
+The takeaway. Scaling alone does not fix compositional reasoning.
+
+29
+00:04:49,718 --> 00:05:00,182
+Models need to handle domain mixtures and hold their reasoning together across turns, and XDomainBench gives a controllable testbed to measure exactly that.
+
+30
+00:05:00,632 --> 00:05:07,928
+Explore the dataset, the code, and the full paper through the links below. Thanks for watching.

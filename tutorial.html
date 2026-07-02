@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Tutorial | XDomainBench</title>
+  <meta name="description" content="A narrated, animated video tutorial on XDomainBench: diagnosing reasoning collapse in high-dimensional scientific knowledge composition.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    .tut-hero{padding-top:56px;padding-bottom:8px}
+    .tut-hero .pill{margin-bottom:14px}
+    .tut-grid{display:grid;grid-template-columns:minmax(0,1.72fr) minmax(0,1fr);gap:26px;align-items:start;margin-top:6px}
+    .video-card{padding:14px;overflow:hidden}
+    .video-card video{width:100%;display:block;border-radius:14px;background:#0b0710;aspect-ratio:16/9}
+    .chapters{padding:22px 20px}
+    .chapters h4{margin:0 0 12px;font-family:'Space Grotesk',Inter,sans-serif;font-size:1.05rem;color:var(--ink)}
+    .chapters ul{list-style:none;margin:0;padding:0;max-height:430px;overflow:auto}
+    .chapters li{margin:0 0 6px}
+    .chapters button{width:100%;text-align:left;display:flex;gap:12px;align-items:baseline;
+      background:transparent;border:1px solid transparent;border-radius:12px;padding:9px 12px;
+      cursor:pointer;color:var(--ink);font:inherit;font-size:.95rem;font-weight:600;transition:.18s}
+    .chapters button:hover{background:rgba(165,139,242,.10);border-color:var(--line)}
+    .chapters button.on{background:rgba(223,111,135,.12);border-color:rgba(223,111,135,.4)}
+    .chapters button .t{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.82rem;
+      color:var(--rose-strong);min-width:38px;font-weight:700}
+    .chapters .major{margin-top:12px;color:var(--violet);font-weight:800}
+    .chap-note{margin-top:14px;font-size:.82rem;color:var(--ink-soft);line-height:1.5}
+    .chap-note a{color:var(--rose-strong);font-weight:700;text-decoration:none}
+    .tk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+    .tk{display:flex;gap:14px;align-items:flex-start}
+    .tk-n{flex:0 0 auto;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+      font-weight:800;color:#fff;font-family:'Space Grotesk',sans-serif}
+    @media(max-width:900px){.tut-grid{grid-template-columns:1fr}.tk-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo" href="./index.html">
+        <img class="logo-icon" src="./assets/章鱼.png" alt="XDomainBench logo">
+        <span>XDomainBench</span>
+      </a>
+      <nav>
+        <a href="./index.html">← Project page</a>
+        <a href="./index.html#results">Results</a>
+        <a href="./index.html#mechanism">Mechanism</a>
+      </nav>
+      <a class="btn btn-sm" href="https://github.com/GongZhiren/XDomainBench" target="_blank" rel="noreferrer">GitHub</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero container tut-hero">
+      <div class="hero-text" style="max-width:820px">
+        <p class="pill">Video tutorial · about 5 minutes · narrated & subtitled</p>
+        <h1>A guided tour of XDomainBench</h1>
+        <p class="subtitle">
+          The problem, the idea, and the evidence — animated from the paper's own analysis. Why interdisciplinary
+          reasoning <strong>collapses</strong> as scientific domains combine, and the two mechanisms behind it.
+        </p>
+      </div>
+    </section>
+
+    <section class="container section" style="padding-top:8px">
+      <div class="tut-grid">
+        <figure class="card figure-card video-card">
+          <video id="vid" controls preload="metadata" poster="./assets/tutorial/poster.jpg" playsinline>
+            <source src="./assets/tutorial/tutorial.mp4" type="video/mp4">
+            <track kind="captions" src="./assets/tutorial/tutorial.vtt" srclang="en" label="English" default>
+            Your browser does not support the video tag —
+            <a href="./assets/tutorial/tutorial.mp4">download the tutorial</a>.
+          </video>
+        </figure>
+
+        <aside class="card chapters">
+          <h4>Chapters</h4>
+          <ul id="chapList">
+            <li><button data-t="0"   class="major"><span class="t">0:00</span> Introduction</button></li>
+            <li><button data-t="13"  class="major"><span class="t">0:13</span> I · The problem</button></li>
+            <li><button data-t="65"  class="major"><span class="t">1:04</span> II · The idea</button></li>
+            <li><button data-t="76"><span class="t">1:15</span> Two axes: order &amp; mixture</button></li>
+            <li><button data-t="114"><span class="t">1:54</span> The benchmark at scale</button></li>
+            <li><button data-t="128" class="major"><span class="t">2:07</span> III · How it is built</button></li>
+            <li><button data-t="153"><span class="t">2:32</span> Construction pipeline</button></li>
+            <li><button data-t="168" class="major"><span class="t">2:48</span> IV · What we find</button></li>
+            <li><button data-t="180"><span class="t">3:00</span> The collapse: 39% → 27%</button></li>
+            <li><button data-t="204"><span class="t">3:24</span> Model families differ</button></li>
+            <li><button data-t="230" class="major"><span class="t">3:49</span> V · Why it happens</button></li>
+            <li><button data-t="236"><span class="t">3:56</span> Direct mechanism</button></li>
+            <li><button data-t="259"><span class="t">4:18</span> Three failure signatures</button></li>
+            <li><button data-t="283" class="major"><span class="t">4:43</span> VI · Takeaway</button></li>
+          </ul>
+          <p class="chap-note">Captions are on by default; audio is a synthesized narration. Download:
+            <a href="./assets/tutorial/tutorial.mp4">MP4</a> · <a href="./assets/tutorial/tutorial.srt">SRT</a></p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="container section" style="padding-top:6px">
+      <h2>What the tutorial covers</h2>
+      <div class="tk-grid">
+        <article class="card">
+          <div class="tk">
+            <div class="tk-n" style="background:var(--rose-strong)">1</div>
+            <p><strong>Why composition breaks reasoning.</strong> As a session draws on more scientific domains
+              (order <em>k</em> = 1 → 4), accuracy falls non-linearly — combining disciplines compounds, rather than adds.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="tk">
+            <div class="tk-n" style="background:var(--violet)">2</div>
+            <p><strong>A controllable design.</strong> Composition order and mixture structure, over 8,598 sessions,
+              20 domains, and realistic difficulty / mixture trajectories — reasoning made measurable.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="tk">
+            <div class="tk-n" style="background:var(--blue)">3</div>
+            <p><strong>Two mechanisms of collapse.</strong> A direct integrative load at the very first turn, and
+              indirect, trajectory-amplified failures — error accumulation, reasoning breaks, and domain confusion.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid3" style="margin-top:24px">
+        <a class="card resource" href="./index.html"><h3>Full project page</h3><p>Abstract, figures, and the complete results table.</p></a>
+        <a class="card resource" href="https://github.com/GongZhiren/XDomainBench" target="_blank" rel="noreferrer"><h3>Code</h3><p>Benchmark, evaluator, and reproducibility assets.</p></a>
+        <a class="card resource" href="https://huggingface.co/datasets/ZHIREN001/XDomainBench" target="_blank" rel="noreferrer"><h3>Dataset</h3><p>Public dataset on Hugging Face.</p></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>XDomainBench · <a class="contact-link" href="./index.html">project page</a> ·
+        <a class="contact-link" href="https://github.com/GongZhiren/XDomainBench" target="_blank" rel="noreferrer">code</a> ·
+        Contact <a class="contact-link" href="mailto:zhiren001@e.ntu.edu.sg">zhiren001@e.ntu.edu.sg</a></p>
+    </div>
+  </footer>
+
+  <script>
+    const v=document.getElementById('vid');
+    const btns=[...document.querySelectorAll('#chapList button')];
+    btns.forEach(b=>b.addEventListener('click',()=>{
+      v.currentTime=+b.dataset.t; v.play().catch(()=>{});
+      v.scrollIntoView({behavior:'smooth',block:'center'});
+    }));
+    v.addEventListener('timeupdate',()=>{
+      let cur=null;
+      for(const b of btns){ if(v.currentTime+0.25>=+b.dataset.t) cur=b; }
+      btns.forEach(x=>x.classList.remove('on')); if(cur)cur.classList.add('on');
+    });
+  </script>
+</body>
+</html>
