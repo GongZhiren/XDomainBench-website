@@ -125,48 +125,6 @@
     <section id="design" class="container section">
       <h2>Benchmark Design</h2>
 
-      <style>
-      .xdv{padding:20px 22px;margin:2px 0 24px}
-      .xdv-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-      .xdv-badge{font:700 11.5px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#fff;
-        background:linear-gradient(120deg,var(--rose-strong,#d6568c),var(--violet,#8b5cf6));padding:6px 13px;border-radius:999px}
-      .xdv-sub{color:var(--ink-soft,#6a5870);font-size:14px}
-      .xdv-body{display:grid;grid-template-columns:1fr 300px;gap:26px;align-items:center}
-      @media(max-width:820px){.xdv-body{grid-template-columns:1fr}}
-      .xdv-domains{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:14px}
-      .xdv-chip{padding:7px 13px;border-radius:999px;border:1.5px solid var(--line,#eccfe0);background:var(--card,#fff);
-        font:600 13px/1 Inter;color:#9a8aa6;transition:all .45s cubic-bezier(.2,.7,.2,1)}
-      .xdv-chip.on{color:#fff;transform:translateY(-1px)}
-      .xdv-orderctl{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-soft,#6a5870);margin-top:4px}
-      .xdv-pips{display:flex;gap:6px}
-      .xdv-pip{width:26px;height:6px;border-radius:3px;background:var(--line,#eccfe0);transition:background .4s}
-      .xdv-pip.on{background:linear-gradient(90deg,var(--rose-strong,#d6568c),var(--violet,#8b5cf6))}
-      .xdv-gauge{text-align:center;border:1px solid var(--line,#eccfe0);border-radius:16px;padding:18px 16px;background:var(--card,#fff)}
-      .xdv-acc{font:800 46px/1 'Space Grotesk',Inter,sans-serif;transition:color .5s}
-      .xdv-acclab{font:600 12px/1 Inter;color:var(--ink-soft,#6a5870);letter-spacing:.04em;text-transform:uppercase;margin-top:6px}
-      .xdv-bar{height:10px;border-radius:6px;background:rgba(150,120,160,.15);overflow:hidden;margin-top:14px}
-      .xdv-bar i{display:block;height:100%;width:0;border-radius:6px;transition:width .7s cubic-bezier(.2,.7,.2,1),background .5s}
-      .xdv-curve{margin-top:14px}
-      .xdv-cap{margin:16px 2px 0;color:var(--ink-soft,#6a5870);font-size:13.5px;line-height:1.6}
-      .xdv-cap b{color:var(--ink,#2a1f30)}
-      </style>
-      <figure class="card figure-card xdv" aria-label="Illustration of reasoning collapse with composition order">
-        <div class="xdv-head"><span class="xdv-badge">XDomainBench · live</span>
-          <span class="xdv-sub">as scientific concepts from <b style="color:var(--violet,#8b5cf6)">more domains</b> must compose, reasoning <b style="color:var(--rose-strong,#d6568c)">collapses</b> — we measure where &amp; why</span></div>
-        <div class="xdv-body">
-          <div>
-            <div class="xdv-domains" id="xdvDomains"></div>
-            <div class="xdv-orderctl"><span>composition order</span><div class="xdv-pips" id="xdvPips"></div><b id="xdvOrder" style="color:var(--violet,#8b5cf6)"></b></div>
-            <svg class="xdv-curve" id="xdvCurve" viewBox="0 0 520 150" style="width:100%;height:auto"></svg>
-          </div>
-          <div class="xdv-gauge">
-            <div class="xdv-acc" id="xdvAcc">—</div>
-            <div class="xdv-acclab">composition accuracy</div>
-            <div class="xdv-bar"><i id="xdvFill"></i></div>
-          </div>
-        </div>
-        <p class="xdv-cap">Single-domain questions are easy; the failure is <b>compositional</b>. XDomainBench scales the number of domains a question fuses and exposes a steep <b>reasoning collapse</b> — turning a diffuse failure mode into a measurable, diagnosable axis. <span style="opacity:.7">(trend shown is illustrative)</span></p>
-      </figure>
 
       <div class="story-grid">
         <figure class="card figure-card">
@@ -509,59 +467,6 @@
     <img id="lightboxImg" src="" alt="Expanded figure preview">
   </div>
 
-  <script>
-  /* XDomainBench live: composition order rises, scientific domains fuse, and
-     reasoning accuracy collapses — the benchmark's central phenomenon. */
-  (function(){
-    var dWrap=document.getElementById('xdvDomains'); if(!dWrap) return;
-    var pips=document.getElementById('xdvPips'), orderEl=document.getElementById('xdvOrder'),
-        accEl=document.getElementById('xdvAcc'), fill=document.getElementById('xdvFill'),
-        curve=document.getElementById('xdvCurve');
-    var NS='http://www.w3.org/2000/svg';
-    var DOMAINS=[['Physics','#d6568c'],['Chemistry','#8b5cf6'],['Biology','#2bb6c9'],['Economics','#e0a43b'],['Medicine','#2bbf9e'],['Materials','#5b8def']];
-    var chips=DOMAINS.map(function(d){var c=document.createElement('span');c.className='xdv-chip';c.textContent=d[0];dWrap.appendChild(c);return c;});
-    for(var k=0;k<4;k++){var p=document.createElement('span');p.className='xdv-pip';pips.appendChild(p);}
-    var pipEls=[].slice.call(pips.children);
-    var ACC=[82,61,38,19];
-    function accColor(a){return a>=75?'#2bbf9e':a>=55?'#e0a43b':a>=32?'#e8743b':'#e5484d';}
-    /* curve scaffold */
-    var CX=[70,215,360,495], CY=ACC.map(function(a){return 128-(a/100)*108;});
-    curve.innerHTML='';
-    curve.appendChild(mk('line',{x1:40,y1:128,x2:510,y2:128,stroke:'rgba(150,120,160,.3)','stroke-width':1}));
-    var poly=mk('polyline',{points:CX.map(function(x,i){return x+','+CY[i];}).join(' '),fill:'none',stroke:'rgba(150,120,160,.35)','stroke-width':2,'stroke-dasharray':'4 4'});
-    curve.appendChild(poly);
-    var cpts=CX.map(function(x,i){var c=mk('circle',{cx:x,cy:CY[i],r:4,fill:'#c9b6cf'});curve.appendChild(c);
-      var t=mk('text',{x:x,y:146,fill:'#8a7a92','font-size':10.5,'text-anchor':'middle','font-family':'Inter'});t.textContent=(i+1)+'-dom';curve.appendChild(t);
-      var vt=mk('text',{x:x,y:CY[i]-10,fill:accColor(ACC[i]),'font-size':12,'font-weight':700,'text-anchor':'middle','font-family':'Inter',opacity:0});vt.textContent=ACC[i]+'%';curve.appendChild(vt);
-      return {c:c,vt:vt};});
-    var live=mk('polyline',{points:'',fill:'none',stroke:'url(#xgrad)','stroke-width':3,'stroke-linecap':'round','stroke-linejoin':'round'});
-    var defs=mk('defs',{}); defs.innerHTML='<linearGradient id="xgrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2bbf9e"/><stop offset="0.5" stop-color="#e0a43b"/><stop offset="1" stop-color="#e5484d"/></linearGradient>';
-    curve.appendChild(defs); curve.appendChild(live);
-    function mk(t,a){var n=document.createElementNS(NS,t);for(var k in a)n.setAttribute(k,a[k]);return n;}
-    /* arcs between active domains */
-    function render(o){
-      orderEl.textContent='= '+o;
-      chips.forEach(function(c,i){var on=i<o; c.classList.toggle('on',on); c.style.background=on?DOMAINS[i][1]:''; c.style.borderColor=on?DOMAINS[i][1]:'';});
-      pipEls.forEach(function(p,i){p.classList.toggle('on',i<o);});
-      var a=ACC[o-1]; accEl.textContent=a+'%'; accEl.style.color=accColor(a);
-      fill.style.width=a+'%'; fill.style.background=accColor(a);
-      cpts.forEach(function(pt,i){var active=i<o; pt.c.setAttribute('r',i===o-1?6:(active?4.5:4));
-        pt.c.setAttribute('fill',active?accColor(ACC[i]):'#c9b6cf');
-        pt.c.setAttribute('style',i===o-1?'filter:drop-shadow(0 0 5px '+accColor(ACC[i])+')':'');
-        pt.vt.setAttribute('opacity',active?1:0);});
-      live.setAttribute('points',CX.slice(0,o).map(function(x,i){return x+','+CY[i];}).join(' '));
-    }
-    var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
-    if(reduce){ render(4); return; }
-    var o=1, started=false;
-    function tick(){ render(o); o=o%4+1; setTimeout(tick, o===1?2600:1800); }
-    function start(){ if(started)return; started=true; tick(); }
-    if('IntersectionObserver' in window){
-      var io=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting){start();io.disconnect();}});},{threshold:.3});
-      io.observe(dWrap);
-    } else start();
-  })();
-  </script>
   <script src="./script.js"></script>
   <script src="./enhance.js"></script>
 </body>
