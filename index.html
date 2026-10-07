@@ -76,6 +76,74 @@
       <article><h3>6</h3><p>interdisciplinary categories</p></article>
     </section>
 
+    <section class="container">
+      <style>
+      .xdv{padding:20px 22px;margin:4px 0 8px}
+      .xdv-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+      .xdv-badge{font:700 11px/1 Inter,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#fff;
+        background:linear-gradient(120deg,var(--rose-strong,#df6f87),var(--violet,#a58bf2));padding:6px 12px;border-radius:999px;flex:none}
+      .xdv-thesis{font:500 14px/1.5 Inter,sans-serif;color:var(--ink-soft,#5d4b74)}
+      .xdv-thesis b{color:var(--ink,#261738);font-weight:700}
+      .xdv-body{display:grid;grid-template-columns:.92fr 1.08fr;gap:20px;align-items:stretch}
+      @media(max-width:760px){.xdv-body{grid-template-columns:1fr}}
+      .xdv-pan{border:1px solid var(--line,#e9d8e9);border-radius:14px;padding:14px 16px;background:#fff;display:flex;flex-direction:column}
+      .xdv-pt{font:700 12.5px/1.3 Inter;color:var(--ink,#261738);margin:0 0 11px;display:flex;align-items:center;gap:8px}
+      .xdv-korder{display:flex;align-items:baseline;gap:9px;margin-bottom:12px}
+      .xdv-korder .kk{font:800 40px/1 'Space Grotesk',Inter,sans-serif;color:var(--violet,#a58bf2);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+      .xdv-korder .kl{font:600 11px/1.3 Inter;color:var(--ink-soft,#5d4b74)}
+      .xdv-chips{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+      .xdv-chip{display:flex;align-items:center;gap:9px;border:1px solid var(--line,#e9d8e9);border-radius:10px;padding:8px 11px;
+        background:#faf6fb;transition:all .5s cubic-bezier(.2,.7,.2,1);opacity:.4}
+      .xdv-chip .dt{width:9px;height:9px;border-radius:50%;background:#cbb6cf;flex:none;transition:background .5s}
+      .xdv-chip .nm{font:700 12px/1 Inter;color:var(--ink,#261738)}
+      .xdv-chip .tp{margin-left:auto;font:600 9.5px/1 Inter;color:var(--ink-soft,#5d4b74);text-transform:uppercase;letter-spacing:.04em}
+      .xdv-chip.on{opacity:1;border-color:color-mix(in srgb,var(--violet,#a58bf2) 45%,var(--line,#e9d8e9));background:color-mix(in srgb,var(--violet,#a58bf2) 8%,#fff)}
+      .xdv-chip.on .dt{background:var(--violet,#a58bf2)}
+      .xdv-task{margin-top:11px;font:600 11px/1.4 Inter;color:var(--ink-soft,#5d4b74)}
+      .xdv-task b{color:var(--ink,#261738)}
+      .xdv-curvewrap{position:relative;margin-top:auto}
+      .xdv-gauge{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+      .xdv-gauge .gv{font:800 34px/1 'Space Grotesk',Inter,sans-serif;font-variant-numeric:tabular-nums;transition:color .5s;letter-spacing:-.02em}
+      .xdv-gauge .gl{font:600 11px/1.3 Inter;color:var(--ink-soft,#5d4b74)}
+      .xdv-illus{font:600 9px/1 Inter;letter-spacing:.05em;text-transform:uppercase;color:#b9a7bd;border:1px solid var(--line,#e9d8e9);border-radius:6px;padding:3px 6px;margin-left:auto}
+      .xdv-curve{width:100%;height:auto;display:block}
+      .xdv-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+      @media(max-width:640px){.xdv-stats{grid-template-columns:1fr 1fr}}
+      .xdv-stat{border:1px solid var(--line,#e9d8e9);border-radius:12px;padding:11px 10px;text-align:center;background:#fff}
+      .xdv-stat .big{font:800 19px/1.05 'Space Grotesk',Inter,sans-serif;color:var(--ink,#261738);font-variant-numeric:tabular-nums}
+      .xdv-stat .big .v{color:var(--violet,#a58bf2)}
+      .xdv-stat .lab{font:600 10px/1.3 Inter;color:var(--ink-soft,#5d4b74);margin-top:5px}
+      .xdv-cap{margin:15px 2px 0;color:var(--ink-soft,#5d4b74);font-size:13px;line-height:1.65}
+      .xdv-cap b{color:var(--ink,#261738)}
+      </style>
+      <figure class="card figure-card xdv" aria-label="Live demonstration of reasoning collapse under composition order">
+        <div class="xdv-head"><span class="xdv-badge">XDomainBench · live</span>
+          <span class="xdv-thesis">One domain at a time, strong models are fine. XDomainBench raises the <b>composition order k</b> &mdash; fusing more scientific domains into a single interactive session &mdash; and pins down exactly where <b>joint reasoning collapses</b>.</span></div>
+        <div class="xdv-body">
+          <div class="xdv-pan">
+            <p class="xdv-pt">Compose the session</p>
+            <div class="xdv-korder"><span class="kk" id="xdvK">1</span><span class="kl">composition<br>order k</span></div>
+            <div class="xdv-chips" id="xdvChips"></div>
+            <div class="xdv-task">task category: <b id="xdvTask">cross-domain QA</b></div>
+          </div>
+          <div class="xdv-pan">
+            <p class="xdv-pt">Accuracy collapses with order <span class="xdv-illus">illustrative trend</span></p>
+            <div class="xdv-curvewrap">
+              <div class="xdv-gauge"><span class="gv" id="xdvGv">—</span><span class="gl">accuracy, relative to<br>single-domain</span></div>
+              <svg class="xdv-curve" id="xdvCurve" viewBox="0 0 280 150"></svg>
+            </div>
+          </div>
+        </div>
+        <div class="xdv-stats">
+          <div class="xdv-stat"><div class="big"><span class="v">20</span></div><div class="lab">scientific domains</div></div>
+          <div class="xdv-stat"><div class="big"><span class="v">1&rarr;4</span></div><div class="lab">composition orders</div></div>
+          <div class="xdv-stat"><div class="big"><span class="v">8,598</span></div><div class="lab">interactive sessions</div></div>
+          <div class="xdv-stat"><div class="big">monotonic</div><div class="lab">collapse under token & judge metrics</div></div>
+        </div>
+        <p class="xdv-cap">Composition order turns a diffuse failure into a <b>measurable axis</b>: as domains are fused, accuracy falls monotonically, driven by <b>direct difficulty growth</b> and <b>interaction-amplified</b> error accumulation, reasoning breaks, and domain confusion.</p>
+      </figure>
+    </section>
+
     <section id="abstract" class="container section">
       <h2>Abstract</h2>
       <article class="card">
@@ -467,6 +535,58 @@
     <img id="lightboxImg" src="" alt="Expanded figure preview">
   </div>
 
+  <script>
+  /* XDomainBench live: raise the composition order k; accuracy collapses monotonically.
+     Curve/gauge are illustrative of the finding; domain counts/sessions are real. */
+  (function(){
+    var curve=document.getElementById('xdvCurve'); if(!curve) return;
+    var kEl=document.getElementById('xdvK'), gv=document.getElementById('xdvGv'),
+        chipsEl=document.getElementById('xdvChips'), taskEl=document.getElementById('xdvTask');
+    var DOM=[{n:'Physics',t:'mechanics'},{n:'Chemistry',t:'kinetics'},{n:'Biology',t:'metabolism'},{n:'Materials',t:'properties'}];
+    var TASK=['cross-domain QA','multi-step derivation','design & synthesis','interactive planning'];
+    var ACC=[1.00,0.78,0.57,0.38];
+    DOM.forEach(function(d){var c=document.createElement('div');c.className='xdv-chip';
+      c.innerHTML='<span class="dt"></span><span class="nm">'+d.n+'</span><span class="tp">'+d.t+'</span>';chipsEl.appendChild(c);});
+    var chips=chipsEl.querySelectorAll('.xdv-chip');
+    function X(k){return 24+(k-1)/3*244;} function Y(a){return 118-a*102;}
+    function col(a){return a>=0.8?'#2bb673':(a>=0.52?'#e0a52e':'#df6f87');}
+    var pts=ACC.map(function(a,i){return X(i+1).toFixed(1)+' '+Y(a).toFixed(1);});
+    var line='M '+pts.join(' L ');
+    var area='M '+X(1).toFixed(1)+' 118 L '+pts.join(' L ')+' L '+X(4).toFixed(1)+' 118 Z';
+    var axis=''; for(var kk=1;kk<=4;kk++){axis+='<text x="'+X(kk).toFixed(1)+'" y="140" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#8a7a93">k='+kk+'</text>';}
+    curve.innerHTML=
+      '<defs><linearGradient id="xdvA" x1="0" y1="0" x2="0" y2="1">'
+      +'<stop offset="0" stop-color="#a58bf2" stop-opacity=".22"/><stop offset="1" stop-color="#a58bf2" stop-opacity="0"/></linearGradient></defs>'
+      +'<line x1="24" y1="118" x2="268" y2="118" stroke="#e9d8e9" stroke-width="1.5"/>'
+      +'<path d="'+area+'" fill="url(#xdvA)"/>'
+      +'<path d="'+line+'" fill="none" stroke="#cbb6cf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 3"/>'
+      +'<path id="xdvProg" d="'+line+'" fill="none" stroke="#a58bf2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
+      +'<line id="xdvMk" x1="0" y1="16" x2="0" y2="118" stroke="#df6f87" stroke-width="1.3" stroke-dasharray="3 3" opacity="0"/>'
+      +'<circle id="xdvDot" r="5.5" fill="#2bb673" stroke="#fff" stroke-width="2"/>'
+      +axis;
+    var prog=document.getElementById('xdvProg'), dot=document.getElementById('xdvDot'), mk=document.getElementById('xdvMk');
+    var total=prog.getTotalLength(); prog.style.strokeDasharray=total; prog.style.transition='stroke-dashoffset .8s cubic-bezier(.2,.7,.2,1)';
+    dot.style.transition='cx .8s cubic-bezier(.2,.7,.2,1),cy .8s cubic-bezier(.2,.7,.2,1),fill .5s';
+    function setK(k){
+      kEl.textContent=k;
+      chips.forEach(function(c,i){c.classList.toggle('on',i<k);});
+      taskEl.textContent=TASK[k-1];
+      var a=ACC[k-1]; gv.textContent=Math.round(a*100)+'%'; gv.style.color=col(a);
+      var x=X(k),y=Y(a); dot.setAttribute('cx',x.toFixed(1));dot.setAttribute('cy',y.toFixed(1));dot.setAttribute('fill',col(a));
+      mk.setAttribute('x1',x.toFixed(1));mk.setAttribute('x2',x.toFixed(1));mk.setAttribute('opacity',k>1?'.5':'0');
+      prog.style.strokeDashoffset=(total*(1-(k-1)/3)).toFixed(1);
+    }
+    var reduce=false; try{reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;}catch(e){}
+    if(reduce){ setK(4); return; }
+    var k=1, started=false;
+    function tick(){ setK(k); k=k%4+1; setTimeout(tick, k===1?2800:1800); }
+    function start(){ if(started)return; started=true; tick(); }
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting){start();io.disconnect();}});},{threshold:.3});
+      io.observe(curve);
+    } else start();
+  })();
+  </script>
   <script src="./script.js"></script>
   <script src="./enhance.js"></script>
 </body>
